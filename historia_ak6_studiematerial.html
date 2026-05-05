@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historia åk 6 — Studiematerial</title>
+<style>
+  :root {
+    --green-light: #EAF3DE; --green-mid: #639922; --green-dark: #3B6D11;
+    --blue-light: #E6F1FB; --blue-mid: #378ADD; --blue-dark: #185FA5;
+    --purple-light: #EEEDFE; --purple-mid: #7F77DD; --purple-dark: #3C3489;
+    --gray-bg: #F5F5F2; --gray-card: #FFFFFF; --gray-border: #E0DED8;
+    --text-primary: #1a1a1a; --text-secondary: #555550; --text-muted: #888884;
+    --radius-sm: 6px; --radius-md: 10px; --radius-lg: 14px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--gray-bg);
+    color: var(--text-primary);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* TOP BAR */
+  .topbar {
+    background: #fff;
+    border-bottom: 1px solid var(--gray-border);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 56px;
+  }
+  .topbar-title { font-size: 15px; font-weight: 600; color: var(--text-primary); flex: 1; }
+  .topbar-sub { font-size: 12px; color: var(--text-muted); }
+  .progress-pill {
+    font-size: 12px; padding: 3px 10px; border-radius: 20px;
+    background: var(--green-light); color: var(--green-dark); font-weight: 500;
+  }
+
+  /* LAYOUT */
+  .container { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  /* LEVEL SELECTOR */
+  .level-section { margin-bottom: 2rem; }
+  .level-section h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.75rem; }
+  .level-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+  .level-btn {
+    padding: 8px 20px; border-radius: var(--radius-md); border: 1.5px solid var(--gray-border);
+    background: #fff; font-size: 14px; cursor: pointer; font-weight: 500;
+    transition: all 0.15s; color: var(--text-secondary);
+  }
+  .level-btn:hover { border-color: #aaa; color: var(--text-primary); }
+  .level-btn.active-e { background: var(--green-light); border-color: var(--green-mid); color: var(--green-dark); }
+  .level-btn.active-c { background: var(--blue-light); border-color: var(--blue-mid); color: var(--blue-dark); }
+  .level-btn.active-a { background: var(--purple-light); border-color: var(--purple-mid); color: var(--purple-dark); }
+
+  .level-desc {
+    font-size: 13px; color: var(--text-secondary);
+    padding: 10px 14px; border-radius: var(--radius-md);
+    margin-top: 10px; line-height: 1.6; display: none;
+  }
+  .level-desc.show { display: block; }
+  .level-desc-e { background: var(--green-light); border-left: 3px solid var(--green-mid); }
+  .level-desc-c { background: var(--blue-light); border-left: 3px solid var(--blue-mid); }
+  .level-desc-a { background: var(--purple-light); border-left: 3px solid var(--purple-mid); }
+
+  /* TOPIC TABS */
+  .topic-section { margin-bottom: 2rem; }
+  .topic-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .topic-btn {
+    padding: 6px 14px; border-radius: 20px; border: 1px solid var(--gray-border);
+    background: #fff; font-size: 13px; cursor: pointer; color: var(--text-secondary);
+    transition: all 0.12s;
+  }
+  .topic-btn:hover { background: var(--gray-bg); color: var(--text-primary); }
+  .topic-btn.active { background: var(--text-primary); color: #fff; border-color: var(--text-primary); }
+
+  /* CONTENT AREA */
+  .content-panel { display: none; }
+  .content-panel.show { display: block; }
+
+  /* VOCAB */
+  .section-title {
+    font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-muted); margin-bottom: 1rem; padding-bottom: 8px;
+    border-bottom: 1px solid var(--gray-border);
+  }
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-bottom: 2rem; }
+  .vocab-card {
+    background: #fff; border: 1px solid var(--gray-border); border-radius: var(--radius-md);
+    padding: 12px 14px; box-shadow: var(--shadow);
+  }
+  .vocab-term { font-size: 13px; font-weight: 600; margin-bottom: 5px; color: var(--text-primary); }
+  .vocab-def { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+
+  /* QUESTIONS */
+  .questions-block { margin-bottom: 2rem; }
+  .level-badge {
+    display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px;
+    border-radius: 20px; margin-bottom: 1rem; letter-spacing: 0.03em;
+  }
+  .badge-e { background: var(--green-light); color: var(--green-dark); }
+  .badge-c { background: var(--blue-light); color: var(--blue-dark); }
+  .badge-a { background: var(--purple-light); color: var(--purple-dark); }
+
+  .question-card {
+    background: #fff; border: 1px solid var(--gray-border); border-radius: var(--radius-lg);
+    padding: 1.1rem 1.3rem; margin-bottom: 10px; box-shadow: var(--shadow);
+    transition: border-color 0.15s;
+  }
+  .question-card.answered { border-color: #9FE1CB; }
+  .question-meta { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; display: flex; gap: 10px; align-items: center; }
+  .question-text { font-size: 14px; line-height: 1.65; margin-bottom: 10px; font-weight: 500; }
+  .q-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .show-answer-btn {
+    font-size: 12px; padding: 5px 14px; border-radius: var(--radius-sm);
+    border: 1px solid var(--gray-border); background: var(--gray-bg);
+    cursor: pointer; font-weight: 500; color: var(--text-secondary);
+    transition: all 0.12s;
+  }
+  .show-answer-btn:hover { background: #eee; }
+  .show-answer-btn.active { background: var(--text-primary); color: #fff; border-color: var(--text-primary); }
+  .answer-area {
+    display: none; margin-top: 12px; padding: 12px 14px;
+    background: #F8F8F5; border-radius: var(--radius-md);
+    font-size: 13px; color: var(--text-secondary); line-height: 1.7;
+    border-left: 3px solid var(--gray-border);
+  }
+  .answer-area.show { display: block; }
+  .answer-area.e-style { border-left-color: var(--green-mid); }
+  .answer-area.c-style { border-left-color: var(--blue-mid); }
+  .answer-area.a-style { border-left-color: var(--purple-mid); }
+  .self-check { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+  .self-check span { font-size: 12px; color: var(--text-muted); }
+  .check-btn {
+    font-size: 12px; padding: 4px 12px; border-radius: var(--radius-sm);
+    border: 1px solid var(--gray-border); background: #fff; cursor: pointer;
+    transition: all 0.12s;
+  }
+  .check-btn:hover { background: var(--gray-bg); }
+  .check-btn.got-it { background: var(--green-light); color: var(--green-dark); border-color: var(--green-mid); }
+  .check-btn.not-yet { background: #FAECE7; color: #993C1D; border-color: #D85A30; }
+  .check-mark { font-size: 14px; margin-left: 4px; }
+
+  /* A-LEVEL TIP */
+  .a-tip {
+    background: var(--purple-light); border-left: 3px solid var(--purple-mid);
+    border-radius: var(--radius-md); padding: 12px 16px;
+    font-size: 13px; color: var(--purple-dark); line-height: 1.7; margin-bottom: 2rem;
+  }
+  .a-tip strong { font-weight: 600; }
+
+  /* PROGRESS OVERVIEW */
+  .progress-section {
+    background: #fff; border: 1px solid var(--gray-border); border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem; margin-bottom: 2rem; box-shadow: var(--shadow);
+  }
+  .progress-section h3 { font-size: 14px; font-weight: 600; margin-bottom: 1rem; }
+  .progress-topics { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+  .progress-topic {
+    background: var(--gray-bg); border-radius: var(--radius-md);
+    padding: 10px 12px;
+  }
+  .progress-topic-name { font-size: 12px; font-weight: 500; margin-bottom: 6px; }
+  .progress-bar-bg { background: var(--gray-border); border-radius: 4px; height: 6px; margin-bottom: 4px; }
+  .progress-bar-fill { background: var(--green-mid); border-radius: 4px; height: 6px; transition: width 0.4s; }
+  .progress-num { font-size: 11px; color: var(--text-muted); }
+
+  /* RESET */
+  .reset-area { text-align: right; margin-bottom: 1rem; }
+  .reset-btn {
+    font-size: 12px; padding: 5px 14px; border-radius: var(--radius-sm);
+    border: 1px solid var(--gray-border); background: #fff; cursor: pointer;
+    color: var(--text-muted);
+  }
+  .reset-btn:hover { color: #c0392b; border-color: #c0392b; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .container { padding: 1rem; }
+    .topbar { padding: 0 1rem; }
+    .vocab-grid { grid-template-columns: 1fr; }
+    .progress-topics { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* PRINT */
+  @media print {
+    .topbar, .level-section, .topic-section, .progress-section, .q-actions, .self-check, .reset-area { display: none !important; }
+    .content-panel { display: block !important; }
+    .answer-area { display: block !important; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <div class="topbar-title">Historia åk 6</div>
+    <div class="topbar-sub">Frihetstiden · Gustavianska tiden · 1800-talet</div>
+  </div>
+  <div class="progress-pill" id="topbar-progress">0 av 0 frågor klara</div>
+</div>
+
+<div class="container">
+
+  <!-- PROGRESS OVERVIEW -->
+  <div class="progress-section">
+    <h3>Din framsteg</h3>
+    <div class="progress-topics" id="progress-topics"></div>
+  </div>
+
+  <!-- LEVEL SELECTOR -->
+  <div class="level-section">
+    <h2>Välj betygsnivå</h2>
+    <div class="level-tabs">
+      <button class="level-btn active-e" onclick="setLevel('e')">E — Godkänt</button>
+      <button class="level-btn" onclick="setLevel('c')">C — Väl godkänt</button>
+      <button class="level-btn" onclick="setLevel('a')">A — Utmärkt</button>
+    </div>
+    <div class="level-desc level-desc-e show" id="desc-e">
+      <strong>Nivå E:</strong> Du återger grundläggande fakta, beskriver händelser och förklarar enkla orsaker. Du använder ämnesbegreppen med viss säkerhet.
+    </div>
+    <div class="level-desc level-desc-c" id="desc-c">
+      <strong>Nivå C:</strong> Du förklarar och resonerar kring händelser, visar förståelse för samband och jämför likheter och skillnader. Du använder ämnesbegreppen med god säkerhet.
+    </div>
+    <div class="level-desc level-desc-a" id="desc-a">
+      <strong>Nivå A:</strong> Du analyserar och jämför historiska händelser med välunderbyggda argument, använder källkritik och resonerar kring komplexa orsak-konsekvens-samband.
+    </div>
+  </div>
+
+  <!-- TOPIC TABS -->
+  <div class="topic-section">
+    <h2 style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:0.75rem;">Välj ämnesområde</h2>
+    <div class="topic-tabs" id="topic-tabs"></div>
+  </div>
+
+  <div class="reset-area">
+    <button class="reset-btn" onclick="confirmReset()">Rensa alla svar</button>
+  </div>
+
+  <!-- DYNAMIC CONTENT -->
+  <div id="content-area"></div>
+
+</div>
+
+<script>
+var TOPICS = ['frihet','gustav','tidigt1800','industri','samhalle'];
+var TOPIC_NAMES = {
+  frihet: 'Frihetstiden',
+  gustav: 'Gustavianska tiden',
+  tidigt1800: 'Tidigt 1800-tal',
+  industri: 'Industrialisering',
+  samhalle: 'Samhälle & demokrati'
+};
+
+var DATA = {
+  frihet: {
+    title: 'Frihetstiden (ca 1718–1772)',
+    vocab: [
+      {term:'Envälde', def:'Styrelseform där en person har all makt'},
+      {term:'Riksråd', def:'Samling av mäktiga adelsmän som styrde Sverige ungefär som en regering under 1700-talet'},
+      {term:'Kanslipresident', def:'Ledare för riksrådet'},
+      {term:'Korruption', def:'När någon missbrukar sin ställning för egen vinning, t.ex. genom att ta emot mutor'},
+      {term:'Hattar och mössor', def:'De två politiska partierna under frihetstiden'},
+      {term:'Stånden', def:'Adel, präster, borgare och bönder — de fyra grupper med representation i riksdagen'},
+      {term:'Privilegium', def:'Särskild fördel som bara vissa personer har'},
+      {term:'Muta', def:'Gåva till makthavare i syfte att ge givaren något i gengäld'},
+      {term:'Regent', def:'Statschef i en monarki, oftast kung eller drottning'},
+      {term:'Socken', def:'Äldre geografisk indelning runt en kyrka på landsbygden'},
+    ],
+    questions: {
+      e: [
+        {q:'Vad kallas tidsperioden 1718–1772 i Sverige?', a:'Frihetstiden. Den fick sitt namn för att kungen hade liten makt och riksdagen styrde landet.'},
+        {q:'Vilka var de fyra stånden i Sverige under 1700-talet?', a:'Adeln, prästerna, borgarna och bönderna.'},
+        {q:'Nämn de två partierna som bildades under frihetstiden.', a:'Hattarna och mössorna. De hade olika åsikter om hur Sverige skulle styras och vilka allianser man skulle ha utomlands.'},
+        {q:'Vad menas med korruption?', a:'När någon missbrukar sin makt eller ställning för att tjäna sig själv — t.ex. genom att ta emot mutor.'},
+        {q:'Hur styrdes Sverige under frihetstiden?', a:'Riksrådet styrde landet ungefär som en regering. Kungen hade liten makt.'},
+      ],
+      c: [
+        {q:'Varför kallas perioden 1718–1772 för "frihetstiden"?', a:'För att det var en tid då kungamakten var kraftigt begränsad. Riksdagen och riksrådet hade makten — en "frihet" från det kungliga enväldet som funnits under Karl XII.'},
+        {q:'Förklara varför korruptionen var ett stort problem under frihetstiden.', a:'Hattarna och mössorna konkurrerade om makten. Båda parterna försökte köpa röster och inflytande, vilket ledde till att tjänstemän och riksdagsledamöter tog emot mutor och det folkliga förtroendet för systemet urholkades.'},
+        {q:'Vad innebar ståndssamhället för de som inte tillhörde adeln?', a:'Adeln hade stora privilegier. Bönder och borgare hade begränsat politiskt inflytande. Prästerna hade stort inflytande över folks liv via kyrkan. Stånden innebar att din position i samhället i stor utsträckning bestämdes av vad du var född till.'},
+      ],
+      a: [
+        {q:'Jämför frihetstiden med enväldet som föregick den. Vilka var fördelarna och nackdelarna med vardera styrelseform?', a:'Under enväldet var makten koncentrerad till kungen, vilket gav snabba beslut men ingen folklig kontroll. Under frihetstiden spreds makten, vilket gav fler inflytande men också korruption och partistridigheter. En delad makt är inte automatiskt bättre om systemet missbrukas av de privilegierade.'},
+        {q:'Analysera hur partisystemet med hattar och mössor kan ses som ett tidigt demokratiskt experiment — och vilka grundläggande brister det hade.', a:'Demokratiskt: det förekom politiska partier, debatter och omröstningar — en ny form av politiskt liv. Men bara de fyra stånden hade rösträtt, korruptionen var utbredd och majoriteten av befolkningen saknade inflytande. Det var en demokrati för privilegierade, inte folket i stort. Systemet kollapsade för att det inte hade legitimitet nog att motstå en statskupp.'},
+      ]
+    }
+  },
+  gustav: {
+    title: 'Gustavianska tiden (1772–1809)',
+    vocab: [
+      {term:'Statskupp', def:'När någon tar makten i ett land på ett olagligt sätt'},
+      {term:'Myteri', def:'När militärer vägrar lyda order'},
+      {term:'Maskeradbal', def:'Fest där deltagarna dansar och är utklädda — platsen där Gustav III sköts 1792'},
+      {term:'Förmyndarregering', def:'Regering som styr landet tills regenten blir myndig'},
+      {term:'Reform', def:'Förändring i samhället som genomförs på demokratisk väg'},
+      {term:'Upplysningen', def:'Tankerörelse på 1700-talet som betonade förnuft, vetenskap och mänskliga rättigheter'},
+      {term:'Oblodig', def:'Som inte medför att någon skadas eller dör'},
+      {term:'Propaganda', def:'Försök att påverka människor att tänka, tycka eller göra på ett visst sätt'},
+      {term:'Bödel', def:'Person anställd för att avrätta dömda till döden'},
+      {term:'Kungörelse', def:'Muntligt eller skriftligt tillkännagivande från en myndighet'},
+    ],
+    questions: {
+      e: [
+        {q:'Hur genomförde Gustav III sin statskupp år 1772?', a:'Han låste in riksrådet på slottet och tvingade till sig makten. Statskuppen var i det närmaste oblodig.'},
+        {q:'Hur dog Gustav III?', a:'Han sköts på ett maskeradbal år 1792 av en missnöjd adelsman och dog av skottskadorna.'},
+        {q:'Vad menas med upplysningstiden?', a:'En tid på 1700-talet då det ansågs viktigt att vara nyfiken och söka kunskap — man satte vetenskapen och förnuftet i centrum.'},
+        {q:'Nämn en vetenskapsperson från 1700-talets Sverige och berätta kortfattat om hen.', a:'Carl von Linné skapade ett system för att namnge och klassificera växter och djur — ett system som används än idag. Anders Celsius uppfann temperaturskalan. Eva Ekeblad uppfinningar med potatis sparade spannmål från att användas till brännvin.'},
+      ],
+      c: [
+        {q:'Varför var adelsmännen missnöjda med Gustav III?', a:'Gustav III ändrade i lagen så att han fick all makt och blev enväldig. Adeln förlorade den politiska makt de haft under frihetstiden och ville återta sitt inflytande.'},
+        {q:'Vad fick upplysningstidens idéer för konsekvenser i Sverige?', a:'Idéerna påverkade samhällsdebatten och ledde till reformer: tryckfrihet och religionsfrihet infördes, vetenskapen fick stöd, och man ifrågasatte adelsprivilegier och kyrkans dominans.'},
+        {q:'Beskriv orsaken till och konsekvenserna av Gustav III:s statskupp.', a:'Orsak: Frihetstiden präglades av korruption och partistridigheter. Gustav III utnyttjade missnöjet för att ta makten. Konsekvenser: Riksdagens och riksrådets makt begränsades kraftigt. Gustav genomförde reformer (religionsfrihet, avskaffad tortyr) men styrde enväldig.'},
+      ],
+      a: [
+        {q:'Analysera hur Gustav III:s styre kan betraktas som både upplyst och enväldig. Ge konkreta argument för båda sidorna.', a:'Upplyst: Han genomförde reformer (religionsfrihet, avskaffad tortyr), stödde konst och vetenskap, och regerade relativt humant. Enväldig: Han tog makten olagligt, begränsade riksdagens makt och styrde utan folklig kontroll. Han är ett exempel på en "upplyst despot" — en härskare som kombinerar reformidéer med absolut makt, vilket leder till frågan: kan ett envälde vara legitimt om konsekvenserna är goda?'},
+        {q:'Jämför statskuppen 1772 med mordet 1792. Vad säger de händelserna om maktens natur i 1700-talets Sverige?', a:'Båda händelserna visar att maktkampen aldrig upphör. 1772 tog Gustav makten från adeln; 1792 tog adeln tillbaka — fast med mordets medel. Det illustrerar att makt sällan ges frivilligt och att förlorarna kan ta till extrema åtgärder. Det visar också enväldes skörhet: det är personbundet och faller med personen. Ingen av aktörerna hade folkligt mandat.'},
+      ]
+    }
+  },
+  tidigt1800: {
+    title: 'Tidigt 1800-tal — Gränser och riksdag',
+    vocab: [
+      {term:'Regeringsform', def:'Grundlag som beskriver hur landet ska styras'},
+      {term:'Union', def:'Sammanslutning mellan länder'},
+      {term:'Allians', def:'Samarbete eller överenskommelse mellan parter'},
+      {term:'Storfurstendöme', def:'Monarki där monarken bär titeln storfurste — Finland blev ett sådant under rysk kejsare'},
+      {term:'Tvåkammarriksdag', def:'Parlament uppdelat i två kammare — infört i Sverige 1866'},
+      {term:'Graderad rösträtt', def:'Rösträtt där rika fick fler röster — gällde från 1866'},
+      {term:'Vaccin', def:'Läkemedel som skyddar mot sjukdomar — smittkoppsvaccinet räddade många liv på 1800-talet'},
+      {term:'Skiftesreform', def:'Förändring av hur åkrar fördelades — gjorde jordbruket effektivare'},
+      {term:'Ockupera', def:'Ta över makten i ett annat land, ta det i besittning'},
+      {term:'Riksspråk', def:'Språk som är standard för ett helt land'},
+    ],
+    questions: {
+      e: [
+        {q:'Vad hände med Finland år 1809?', a:'Sverige förlorade Finland till Ryssland efter ett krig. Finland blev ett storfurstendöme under den ryske kejsaren.'},
+        {q:'Vad var 1809 års regeringsform?', a:'En ny grundlag som delade makten mellan kungen, riksdagen och domstolarna. Det blev slut med enväldiga kungar i Sverige.'},
+        {q:'Vilka tre faktorer bidrog mest till att folkmängden ökade under 1800-talet?', a:'Freden (Sverige slutade kriga), vaccinet mot smittkoppor och potatisen som gav mer mat till fler.'},
+        {q:'Vad förändrades med 1866 års riksdag?', a:'De fyra stånden avskaffades och ersattes av en tvåkammarriksdag. Ungefär 20 procent av männen fick rösträtt baserat på förmögenhet.'},
+      ],
+      c: [
+        {q:'Förklara hur Sverige förlorade Finland 1809. Vilka omständigheter ledde till det?', a:'Under Napoleons krig var Sverige i allians med Storbritannien mot Frankrike. Ryssland, på Frankrikes sida, angrep Sverige. Ryska trupper gick in i Finland och vidare runt Bottenviken till Norrbotten. I freden tvingades Sverige ge upp hela Finland och Åland till Ryssland.'},
+        {q:'Varför var skiftesreformen viktig för befolkningsökningen?', a:'Skiftet omfördelade åkermarken i stora effektiva ytor istället för smala remsor. Det gjorde det enklare att bruka jorden och skördarna blev större. Mer mat innebar att fler barn överlevde, vilket ökade befolkningstillväxten.'},
+        {q:'Jämför 1809 och 1866 års förändringar av hur Sverige styrdes. Vad var den viktigaste skillnaden?', a:'1809 delade makten mellan kung, riksdag och domstolar — ett stopp för enväldet. 1866 avskaffade ståndsriksdagen och gav en tvåkammarriksdag med bredare rösträtt. 1809 handlade om att begränsa kungens makt; 1866 handlade om att bredda den politiska representationen, om än fortfarande till en minoritet.'},
+      ],
+      a: [
+        {q:'Analysera varför Sverige förlorade Finland. Var det oundvikligt, eller hade det kunnat undvikas? Resonera utifrån politiska, militära och diplomatiska faktorer.', a:'Politiskt: Sverige stod på Englands sida mot Napoleon, vilket automatiskt gjorde Ryssland till fiende. Militärt: Sverige var försvagat och saknade kraft att försvara de långa gränserna. Diplomatiskt: Sverige saknade starka allierade mot Ryssland. En neutral utrikespolitik hade kanske kunnat rädda Finland — men Napoleons krig pressade alla länder att välja sida. Förlusten var inte oundviklig men heller inte förvånande givet omständigheterna.'},
+        {q:'Hur kan man se 1809 och 1866 som steg mot demokrati — men också som halvmesyrer? Vad fattades fortfarande?', a:'1809 begränsade kungamakten men adeln och privilegierade behöll inflytande. 1866 gav fler rösträtt men fortfarande bara ca 20% av männen — kvinnor och fattiga exkluderades helt. Den gradererade rösträtten innebar dessutom att rika fick fler röster. Demokratin rörde sig framåt, men i mycket små steg och på bekostnad av dem med minst makt. Allmän rösträtt kom inte förrän 1921.'},
+      ]
+    }
+  },
+  industri: {
+    title: 'Industrialisering och livsvillkor',
+    vocab: [
+      {term:'Industrialisering', def:'Samhällets omvandling från jordbrukssamhälle till industrisamhälle med fabriker'},
+      {term:'Ångmaskin', def:'Maskin som omvandlar ångens energi till rörelseenergi — nyckeln till industrialiseringen'},
+      {term:'Massproducera', def:'Tillverka stora mängder av samma vara snabbt och billigt'},
+      {term:'Rallare', def:'Arbetare vid järnvägsbyggen under 1800-talet'},
+      {term:'Emigration', def:'När personer lämnar sitt hemland för att bosätta sig i ett annat land'},
+      {term:'Missväxt', def:'När skörden misslyckas och folk riskerar svält'},
+      {term:'Backstuga', def:'Enkel stuga där fattiga utan fast anställning bodde'},
+      {term:'Jordlös', def:'Att inte äga mark — en vanlig situation för fattiga på 1800-talets landsbygd'},
+      {term:'Daglönare', def:'Person med tillfälligt arbete som betalas per dag'},
+      {term:'Aktier', def:'Andelar i ett aktiebolag — den som investerade i fabriker kunde bli rik'},
+    ],
+    questions: {
+      e: [
+        {q:'Vad menas med industrialisering?', a:'Att samhället förändrades från att mest vara ett jordbrukssamhälle till att bli ett industrisamhälle med fabriker och massproduktion.'},
+        {q:'Vilken uppfinning var extra viktig för industrialiseringen, och varför?', a:'Ångmaskinen. Med ångmaskinen behövde fabriker inte längre ligga vid strömmande vatten utan kunde byggas var som helst.'},
+        {q:'Nämn två orsaker till att många svenska emigrerade till Amerika.', a:'Hungersnöd och missväxt — folk svalt. Och att de hoppades på ett bättre liv i Amerika med frihet och jämlikhet.'},
+        {q:'Hur var arbetsvillkoren för fabriksarbetare under 1800-talet?', a:'Hårt och farligt arbete, mycket långa arbetsdagar, inga semestrar, enda ledigheten var söndagar.'},
+      ],
+      c: [
+        {q:'Beskriv hur industrialiseringen förändrade livet i de svenska städerna under 1800-talet.', a:'Städerna växte snabbt när folk flyttade dit för fabriksarbete. Arbetsvillkoren var hårda och löner låga. Vattnet var ofta förorenat och sjukdomar spreds i de trångbodda kvarteren. Dödligheten var högre i städerna än på landet.'},
+        {q:'Förklara sambandet mellan jordbrukets förändring och emigrationen till Amerika.', a:'Skiftesreform och bättre jordbruk ledde till att fler barn överlevde — men marken räckte inte till alla. Många blev jordlösa. När missväxt och hungersnöd drabbade Sverige på 1860-talet sökte sig hundratusentals till Amerika i hopp om mark, frihet och bättre framtid.'},
+        {q:'Hur skilde sig livsvillkoren åt mellan rika och fattiga i 1800-talets städer?', a:'Rika fabriksägare och köpmän levde i välstånd och kunde investera i mer industri. Fabriksarbetare och daglönare levde trångt under farliga förhållanden utan social trygghet. Barnarbete förekom bland de fattiga. Det handlade om en samhällsklass som tjänade på ett system som lade tung börda på en annan klass.'},
+      ],
+      a: [
+        {q:'Analysera industrialiseringens konsekvenser: hade den mer positiva eller negativa effekter för majoriteten av Sveriges befolkning under 1800-talet?', a:'Positiva: Fler fick råd till kläder och varor, ny teknik förbättrade livet på sikt, järnvägar knöt samman landet, ekonomin växte. Negativa: Arbetsvillkoren var extremt hårda, barnarbete förekom, städerna var ohälsosamma, klyftorna ökade dramatiskt. För majoriteten — fabriksarbetarna — var den omedelbara upplevelsen tuff. Välståndet ökade mest för dem som ägde produktionsmedlen. Frågan visar hur "framsteg" kan ha helt olika innebörder beroende på var i samhällshierarkin man befinner sig.'},
+        {q:'Jämför situationen för fattiga på landsbygden med fattiga i städerna under 1800-talet. Vilket liv var "bättre" och varför är det svårt att svara entydigt?', a:'Landsbygd: Mer självhushållning och gemenskap, men risk för missväxt, jordlöshet, backstugefattigdom. Stad: Lönearbete men osäkra anställningar, fabriker farliga, förorenat vatten, epidemier. "Bättre" beror på vad man värderar: trygghet, hälsa, gemenskap, frihet. Svårt att jämföra eftersom båda situationerna var hårda på olika sätt. Frågan illustrerar att historisk bedömning kräver att vi tydliggör vilka värderingar vi utgår ifrån.'},
+      ]
+    }
+  },
+  samhalle: {
+    title: 'Samhälle, demokrati och folkrörelser',
+    vocab: [
+      {term:'Folkrörelse', def:'Förening bildad av vanliga människor med vilja att förändra samhället'},
+      {term:'Fackförening', def:'Förening för arbetare på samma arbetsplats eller bransch'},
+      {term:'Strejk', def:'När arbetare vägrar arbeta tills de fått igenom sina krav'},
+      {term:'Liberalism', def:'Politisk ideologi som sätter den enskilda människans frihet i centrum'},
+      {term:'Konservatism', def:'Politisk ideologi som vill bevara samhället eller göra försiktiga förändringar'},
+      {term:'Socialism', def:'Politisk ideologi som förespråkar gemensamt ägande och jämlik fördelning av makt och rikedom'},
+      {term:'Nationalism', def:'Ideologi som värnar den egna nationens kultur, språk och historia'},
+      {term:'Jämställdhet', def:'Samma rättigheter och möjligheter för kvinnor och män'},
+      {term:'Nykterhetsrörelse', def:'Organisationer där medlemmarna avstår från alkohol och droger'},
+      {term:'Svartlista', def:'Att varna för eller utestänga en person — t.ex. vägra anställa streikande arbetare'},
+      {term:'Banderoll', def:'Avlångt plakat som bärs på stänger i en demonstration'},
+      {term:'Demonstration', def:'När människor samlas för att protestera mot något tillsammans'},
+    ],
+    questions: {
+      e: [
+        {q:'Vad är en folkrörelse? Ge ett eller två exempel.', a:'En folkrörelse är en förening bildad av vanliga människor som vill förändra något. Exempel: arbetarrörelsen, nykterhetsrörelsen, frikyrkorörelsen, kvinnosaksrörelsen.'},
+        {q:'Vad kämpade fackföreningarna för under 1800-talet?', a:'Kortare arbetsdagar, säkrare arbetsplatser, högre löner och rösträtt för arbetare.'},
+        {q:'Ge tre exempel på rättigheter som kvinnor saknade under 1800-talet.', a:'Rösträtt, rätt att vara myndig och bestämma över sig själv, rätt att arbeta utanför hemmet utan mannens tillåtelse.'},
+        {q:'Vad menas med nationalism?', a:'En ideologi som betonar den egna nationens kultur, historia och språk, och som sätter nationen i centrum.'},
+        {q:'Varför motarbetades fackföreningarna av makthavarna?', a:'Riksdagen införde förbud mot att strejka och gå med i fackförening. Fabriksägarna fruktade att arbetarna skulle kräva högre löner och kortare arbetstid.'},
+      ],
+      c: [
+        {q:'Förklara hur de tre politiska ideologierna konservatism, liberalism och socialism skilde sig åt i synen på samhällsförändring.', a:'Konservatism: ville bevara det gamla samhället och göra minimala förändringar. Liberalism: ville ha frihet för individen och fri marknad — reformer men inte revolution. Socialism: ville ha genomgripande förändringar, jämlik fördelning av makt och rikedom, och starkt stöd för arbetarklassen.'},
+        {q:'Hur använde 1800-talets Sverige historien för politiska syften?', a:'Man presenterade Sveriges historia på ett sätt som skapade nationell stolthet och sammanhållning. Vikingarna framställdes som modiga hjältar, Gustav Vasa som "landsfader". Syftet var att skapa en gemensam nationell identitet som ökade lojaliteten till staten — ett exempel på historieanvändning som inte alltid stämde med verkligheten.'},
+        {q:'Beskriv hur kvinnorörelsens kamp såg ut under 1800-talet och varför den var svår.', a:'Kvinnor saknade rösträtt, var omyndiga och beroende av sina män. Konservativa röstade ner alla förslag om jämställdhet. Även liberaler och socialister prioriterade männens rösträtt. Mot slutet av 1800-talet bildade kvinnor egna föreningar och samarbetade över klassgränserna, vilket stärkte rörelsen.'},
+      ],
+      a: [
+        {q:'Analysera kvinnorörelsens framväxt. Vilka hinder mötte den och vad var avgörande för att den till slut fick framgång?', a:'Hinder: Konservativa röstade ner alla reformförslag. Liberaler och socialister prioriterade männens kamp. Lagen behandlade gifta kvinnor som omyndiga. Avgörande: Kvinnor organiserade sig i föreningar och samarbetade över klassgränserna. De fick stöd av progressiva liberaler och mot slutet av 1800-talet socialdemokraterna. Kollektiv organisation och tydliga gemensamma krav var nyckeln — ett mönster som är igenkännbart i alla folkrörelsers historia.'},
+        {q:'Jämför de tre ideologiernas syn på jämlikhet. Hur kan man bedöma vilken som "hade rätt" historiskt, och vilka metodproblem uppstår?', a:'Liberalismen förespråkade individens frihet men accepterade stora ekonomiska klyftor. Socialismen ville ha ekonomisk jämlikhet men prioriterade ibland inte individfrihet. Konservatismen ville bevara rådande orättvisor. Historiskt fick demokratikrav, fackliga rättigheter och rösträtt genomslag — ofta en blandning av liberal och socialistisk påverkan. Metodproblem: vi bedömer med moderna värderingar, och ideologier i praktiken skiljde sig från ideologier i teorin. En rättvis analys kräver att vi förstår tidsperioden utifrån dess egna förutsättningar.'},
+      ]
+    }
+  }
+};
+
+// STATE
+var state = {
+  level: 'e',
+  topic: 'frihet',
+  answers: {}  // key: "topic-level-qindex" => 'got-it' | 'not-yet'
+};
+
+function loadState() {
+  try {
+    var saved = localStorage.getItem('historia_ak6_state');
+    if (saved) {
+      var parsed = JSON.parse(saved);
+      state.answers = parsed.answers || {};
+    }
+  } catch(e) {}
+}
+
+function saveState() {
+  try {
+    localStorage.setItem('historia_ak6_state', JSON.stringify({answers: state.answers}));
+  } catch(e) {}
+}
+
+function setLevel(level) {
+  state.level = level;
+  document.querySelectorAll('.level-btn').forEach(function(b) {
+    b.className = 'level-btn';
+  });
+  var btns = document.querySelectorAll('.level-btn');
+  if(level==='e') btns[0].className='level-btn active-e';
+  if(level==='c') btns[1].className='level-btn active-c';
+  if(level==='a') btns[2].className='level-btn active-a';
+  ['e','c','a'].forEach(function(l) {
+    var d = document.getElementById('desc-'+l);
+    d.className = 'level-desc level-desc-'+l + (l===level?' show':'');
+  });
+  render();
+}
+
+function setTopic(topic) {
+  state.topic = topic;
+  document.querySelectorAll('.topic-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('tbtn-'+topic).classList.add('active');
+  render();
+}
+
+function toggleAnswer(id) {
+  var area = document.getElementById('area-'+id);
+  var btn = document.getElementById('show-'+id);
+  var showing = area.classList.contains('show');
+  if(showing) {
+    area.classList.remove('show');
+    btn.classList.remove('active');
+    btn.textContent = 'Visa svar';
+  } else {
+    area.classList.add('show');
+    btn.classList.add('active');
+    btn.textContent = 'Dölj svar';
+  }
+}
+
+function markAnswer(key, val, topic, level) {
+  state.answers[key] = val;
+  saveState();
+  var card = document.getElementById('card-'+key);
+  var gotBtn = document.getElementById('got-'+key);
+  var notBtn = document.getElementById('not-'+key);
+  if(val === 'got-it') {
+    card.classList.add('answered');
+    gotBtn.classList.add('got-it');
+    notBtn.classList.remove('not-yet');
+    gotBtn.textContent = '✓ Kan detta';
+    notBtn.textContent = 'Ännu inte';
+  } else {
+    card.classList.remove('answered');
+    notBtn.classList.add('not-yet');
+    gotBtn.classList.remove('got-it');
+    notBtn.textContent = '✗ Ännu inte';
+    gotBtn.textContent = 'Kan detta';
+  }
+  updateProgress();
+}
+
+function updateProgress() {
+  var total = 0, done = 0;
+  TOPICS.forEach(function(t) {
+    ['e','c','a'].forEach(function(l) {
+      var qs = DATA[t].questions[l];
+      qs.forEach(function(q, i) {
+        total++;
+        var key = t+'-'+l+'-'+i;
+        if(state.answers[key] === 'got-it') done++;
+      });
+    });
+  });
+  document.getElementById('topbar-progress').textContent = done + ' av ' + total + ' frågor klara';
+  renderProgressBars();
+}
+
+function renderProgressBars() {
+  var html = '';
+  TOPICS.forEach(function(t) {
+    var total = 0, done = 0;
+    ['e','c','a'].forEach(function(l) {
+      DATA[t].questions[l].forEach(function(q, i) {
+        total++;
+        if(state.answers[t+'-'+l+'-'+i] === 'got-it') done++;
+      });
+    });
+    var pct = total > 0 ? Math.round(done/total*100) : 0;
+    html += '<div class="progress-topic">';
+    html += '<div class="progress-topic-name">'+TOPIC_NAMES[t]+'</div>';
+    html += '<div class="progress-bar-bg"><div class="progress-bar-fill" style="width:'+pct+'%"></div></div>';
+    html += '<div class="progress-num">'+done+'/'+total+'</div>';
+    html += '</div>';
+  });
+  document.getElementById('progress-topics').innerHTML = html;
+}
+
+function render() {
+  var t = state.topic;
+  var l = state.level;
+  var d = DATA[t];
+  var qs = d.questions[l];
+  var levelNames = {e:'Nivå E', c:'Nivå C', a:'Nivå A'};
+  var bClass = {e:'badge-e', c:'badge-c', a:'badge-a'};
+  var aStyle = {e:'e-style', c:'c-style', a:'a-style'};
+
+  var html = '';
+
+  // Vocab
+  html += '<div class="section-title">Ord och begrepp — '+d.title+'</div>';
+  html += '<div class="vocab-grid">';
+  d.vocab.forEach(function(v) {
+    html += '<div class="vocab-card"><div class="vocab-term">'+v.term+'</div><div class="vocab-def">'+v.def+'</div></div>';
+  });
+  html += '</div>';
+
+  // A-level tip
+  if(l === 'a') {
+    html += '<div class="a-tip"><strong>Tips för A-nivå:</strong> Använd fraser som "å ena sidan... å andra sidan", "jämfört med X ser vi att", "en orsak är... en annan är". Stöd alltid dina påståenden med konkreta historiska exempel och resonera kring konsekvenser.</div>';
+  }
+
+  // Questions
+  html += '<div class="questions-block">';
+  html += '<div class="section-title">Studiefrågor</div>';
+  html += '<span class="level-badge '+bClass[l]+'">'+levelNames[l]+'</span>';
+  qs.forEach(function(item, i) {
+    var key = t+'-'+l+'-'+i;
+    var isAnswered = state.answers[key] === 'got-it';
+    var gotIt = state.answers[key] === 'got-it';
+    var notYet = state.answers[key] === 'not-yet';
+    html += '<div class="question-card'+(isAnswered?' answered':'')+'" id="card-'+key+'">';
+    html += '<div class="question-meta"><span>Fråga '+(i+1)+'</span></div>';
+    html += '<div class="question-text">'+item.q+'</div>';
+    html += '<div class="q-actions">';
+    html += '<button class="show-answer-btn" id="show-'+key+'" onclick="toggleAnswer(\''+key+'\')">Visa svar</button>';
+    html += '</div>';
+    html += '<div class="answer-area '+aStyle[l]+'" id="area-'+key+'">'+item.a;
+    html += '<div class="self-check">';
+    html += '<span>Kunde du svara?</span>';
+    html += '<button class="check-btn'+(gotIt?' got-it':'')+'" id="got-'+key+'" onclick="markAnswer(\''+key+'\',\'got-it\',\''+t+'\',\''+l+'\')">'+( gotIt?'✓ Kan detta':'Kan detta')+'</button>';
+    html += '<button class="check-btn'+(notYet?' not-yet':'')+'" id="not-'+key+'" onclick="markAnswer(\''+key+'\',\'not-yet\',\''+t+'\',\''+l+'\')">'+( notYet?'✗ Ännu inte':'Ännu inte')+'</button>';
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+
+  document.getElementById('content-area').innerHTML = html;
+  updateProgress();
+}
+
+function renderTopicTabs() {
+  var html = '';
+  TOPICS.forEach(function(t) {
+    html += '<button class="topic-btn'+(t===state.topic?' active':'')+'" id="tbtn-'+t+'" onclick="setTopic(\''+t+'\')">'+TOPIC_NAMES[t]+'</button>';
+  });
+  document.getElementById('topic-tabs').innerHTML = html;
+}
+
+function confirmReset() {
+  if(confirm('Vill du rensa alla dina svar och börja om? Det går inte att ångra.')) {
+    state.answers = {};
+    saveState();
+    render();
+    updateProgress();
+  }
+}
+
+// INIT
+loadState();
+renderTopicTabs();
+render();
+</script>
+</body>
+</html>
